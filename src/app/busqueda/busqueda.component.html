@@ -1,0 +1,190 @@
+<hr>
+    <div *ngIf="reservaexitosa" class="alert alert-success" role="alert">
+      Vehículo registrado correctamente
+    </div>
+    <div *ngIf="errorenreserva" class="alert alert-danger" role="alert">
+      Se ha producido un error al registrar el vehículo. Inténtelo de nuevo en unos minutos.
+    </div>
+
+    <div class="row">
+      <div class="col">
+        <div class="input-group rounded">
+            <input type="search" class="form-control rounded" placeholder="Buscar por ubicación" aria-label="Search" aria-describedby="search-addon" [ngModel]="ciudad" required="true"
+            name="ciudadbuscar" #buscarciudad="ngModel"/>
+            <span class="input-group-text border-0" id="search-addon">
+              <i class="fas fa-search"></i>
+            </span>
+            <button class="btn btn-primary" [disabled]="buscarciudad.invalid && (buscarciudad.dirty || buscarciudad.touched)"
+            (click)="buscarPorUbicacion(buscarciudad.value)"
+            >Buscar</button>
+          </div>
+          <br>
+          <label for="customRange3" class="form-label">Rango</label>
+          <input type="range" class="form-range" min="1" max="30" step="1" id="customRange3" [(ngModel)]="distancia"
+          (input)="onSliderChange($event)">
+          <span>{{distancia}} km</span>
+          <br>
+          <hr>
+          <div role="group" aria-label="Button group with nested dropdown">
+            Filtrar por:
+
+            <div class="d-inline-block me-2">
+              
+            </div>
+            
+            <div class="d-inline-block me-4">
+              <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                Asientos
+              </button>
+              <ul class="dropdown-menu">
+                <li><button type="button" class="btn btn-link" (click)="filterCochesByAsientos(2)">2</button></li>
+                <li><button type="button" class="btn btn-link" (click)="filterCochesByAsientos(5)">5</button></li>
+                <li><button type="button" class="btn btn-link" (click)="filterCochesByAsientos(7)">7</button></li>
+                <li *ngIf="uniqueAsientos > 0"><button type="button" class="btn btn-link" (click)="filterCochesByAsientos(0)">Limpiar categoria</button> </li>
+              </ul>
+            </div>
+            <div class="d-inline-block me-4">
+              <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                Combustible
+              </button>
+              <ul class="dropdown-menu">
+                <li><button type="button" class="btn btn-link"(click)="filterCochesByCombustible('Gasolina')" >Gasolina</button></li>
+                <li><button type="button" class="btn btn-link" (click)="filterCochesByCombustible('Hibrido')">Hibrido</button></li>
+                <li><button type="button" class="btn btn-link" (click)="filterCochesByCombustible('Electrico')">Electrico</button></li>
+                <li><button type="button" class="btn btn-link" (click)="filterCochesByCombustible('Diesel')">Diesel</button></li>
+                <li *ngIf="uniqueCombustibles && uniqueCombustibles.length > 0 "><button type="button" class="btn btn-link" (click)="filterCochesByCombustible('')">Limpiar Categorias</button></li>
+                
+              </ul>
+            </div>
+            <div class="d-inline-block me-4">
+              <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                Transmisión
+              </button>
+              <ul class="dropdown-menu">
+                <li><button type="button" class="btn btn-link" (click)="filterCochesByTransmision('Delantera')">Delantera</button></li>
+                <li><button type="button" class="btn btn-link" (click)="filterCochesByTransmision('Trasera')" >Trasera</button></li>
+                <li><button type="button" class="btn btn-link" (click)="filterCochesByTransmision('4x4')">4x4</button></li>
+                <li *ngIf="uniqueTransmisiones && uniqueTransmisiones.length > 0" ><button type="button" class="btn btn-link" (click)="filterCochesByTransmision('')">Limpira Categoria</button></li>
+              </ul>
+            </div>
+
+            <div  *ngIf="categoriaseleccionada" class="d-inline-block me-8">
+              <button type="button" class="btn btn-link text-end" (click)="limpiarFiltros()" >Limpiar Filtros</button>
+            </div>
+            
+          </div>
+
+          <hr>
+
+          <div *ngIf="buscar">
+            Mostrando resultados en <strong> {{ciudad}}  </strong> y un radio de <strong> {{distancia}} km </strong>
+          </div>
+            
+          <div>
+            <div *ngIf="uniqueAsientos > 0" style="margin-right: 10px; display: inline-block;">
+              Filtrando por: <strong>Numero de asientos {{uniqueAsientos}}</strong>
+            </div>
+            <div *ngIf="uniqueCombustibles && uniqueCombustibles.length > 0" style="margin-right: 10px; display: inline-block;">
+              <strong>Combustible {{uniqueCombustibles}}</strong>
+            </div>
+            <div *ngIf="uniqueTransmisiones && uniqueTransmisiones.length > 0" style="display: inline-block;">
+              <strong>Transmisión {{uniqueTransmisiones}}</strong>
+            </div>
+          </div>
+          <hr>
+          
+          <div *ngIf="coches && coches.length > 0; else noCoches">
+          <div class="list-group">
+            <div class="card list-group-item mb-3" aria-current="true" *ngFor="let coche of coches"> <!-- Added mb-3 for margin bottom -->
+              <div class="row">
+                <div class="col">
+                  <img [src]="coche.urlfotos" class="card-img-top" alt="Error imagen" >
+                </div>
+                <div class="col">
+                  <strong>{{ coche.marca  }} {{ coche.modelo}}</strong>
+                  <small class="text-muted">Precio: €</small>
+                  <button type="button" class="btn btn-link text-end">Mostrar Ubicación en el mapa</button>
+                </div>
+                <div class="col">
+                  <button type="button" (click)="reservarcoche= reservarcoche== coche.id ? null : coche.id" class="btn btn-primary">Reservar</button>
+                  <button type="button" class="btn btn-link text-end" (click)="selectedCocheVer = selectedCocheVer === coche ? null : coche">Mostrar Detalles</button>
+                </div>
+                <hr>
+                <div *ngIf="selectedCocheVer==coche">
+                  <p class="card-text"><strong>Modelo </strong>{{selectedCocheVer.modelo}}</p>
+                  <p class="card-text"><strong>Matricula: </strong>{{selectedCocheVer.matricula}}</p>
+                  <p class="card-text"><strong>Número de asientos: </strong>{{selectedCocheVer.numasientos}}</p>
+                  <p class="card-text"><strong>Combustible: </strong>{{selectedCocheVer.combustible}}</p>
+                  <p class="card-text"><strong>Transmisión: </strong>{{selectedCocheVer.transmision}}</p>
+                  <p class="card-text"><strong>Estado:</strong></p>
+                  <p class="card-text"><strong>Fecha de modificación: </strong></p>
+ 
+               </div>
+
+               <div *ngIf="reservarcoche==coche.id">
+                <form class="row g-3" (ngSubmit)="onSubmit(coche.id)" #reservaForm="ngForm" enctype="multipart/form-data">
+                    <div class="col form-check">
+                      <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" (change)="onRadioChange(true)" checked >
+                      <label class="form-check-label" for="flexRadioDefault1">
+                        Único día
+                      </label>
+                    </div>
+                    <div class="col form-check">
+                      <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" (change)="onRadioChange(false)">
+                      <label class="form-check-label" for="flexRadioDefault1">
+                        Varios dias
+                      </label>
+                      </div>                    
+
+                 <div class="input-group">
+                  <span class="input-group-text">Fecha de inicio y final</span>
+                  <input type="date" aria-label="First name" class="form-control" [(ngModel)]="fechainicio" required="true" name="fechainicio" #fechainicioinput="ngModel" (change)="validateDates()">
+                  <input type="date" aria-label="Last name" class="form-control" [disabled]="unsolodia" [(ngModel)]="fechafinal" required="true" name="fechafinal" #fechafinalinput="ngModel" (change)="validateDates()">
+                  
+                </div>
+                <div *ngIf="fechainicioinput.invalid && (fechainicioinput.dirty || fechainicioinput.touched)" class="text-danger">
+                  <div *ngIf="fechainicioinput.errors?.['required']">
+                    Introduzca una fecha
+                  </div>
+                </div>
+                <div *ngIf="dateError" class="text-danger">
+                  La fecha de inicio debe ser anterior a la fecha de final.
+                </div>
+                <div class="input-group">
+                  <span class="input-group-text">Hora de inicio y final</span>
+                  <input type="time" aria-label="First name" class="form-control" required="true" [(ngModel)]="horainicio" name="horainicio" #horainicioinput="ngModel">
+                  <input type="time" aria-label="Last name" class="form-control" required="true" [(ngModel)]="horafinal" name="horafinal" #horafinalinput="ngModel">
+                </div> 
+                <div *ngIf="horainicioinput.invalid && (horainicioinput.dirty || horainicioinput.touched)" class="text-danger">
+                  <div *ngIf="horainicioinput.errors?.['required']">
+                    Introduzca una hora de inicio
+                  </div>
+                </div>
+                
+                <div *ngIf="horafinalinput.invalid && (horafinalinput.dirty || horafinalinput.touched)" class="text-danger">
+                  <div *ngIf="horafinalinput.errors?.['required']">
+                    Introduzca una hora de fin 
+                  </div>
+                </div>
+
+                <button type="submit" class="btn btn-primary">Confirmar Reserva</button>
+                </form>
+               </div>
+                </div>
+              </div>
+              
+            
+          </div>
+        </div>
+      </div>
+      <div class="col">
+        <div id="map" class="map-responsive"></div>
+      </div>
+
+      <ng-template #noCoches>
+        <div class="alert alert-info" role="alert">
+          En este momento todos nuestros vehiculos estan reservados
+        </div>
+      </ng-template>
+      
+    </div>

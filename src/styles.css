@@ -1,0 +1,14 @@
+/* You can add global styles to this file, and also import other style files */
+
+/* Definimos variables globales de colores*/
+
+
+:root {
+    --secondary-color: #32cd32;
+    --accent-color: #1e90ff;
+    --cyan: #0dcaf0 ;
+}
+
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

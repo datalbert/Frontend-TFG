@@ -1,0 +1,66 @@
+<div class="container-md">
+  <form class="row g-3 needs-validation" (ngSubmit)="submitForm()" #form="ngForm">
+      <div class="col-md-12">
+          <h1 class="text-center">Contacte con nosotros</h1>
+      </div>
+      <div class="col-md-4">
+          <div class="input-group">
+              <span class="input-group-text">
+                  <img src="../../assets/contact-business-card-svgrepo-com.svg" alt="nombre" width="16" height="16">
+              </span>
+              <input type="text" class="form-control" [(ngModel)]="nombrecontacto" name="nombrecontacto" placeholder="Su nombre" required #namecontact="ngModel">
+            </div>
+            <div *ngIf="namecontact.invalid && (namecontact.dirty || namecontact.touched)" class="text-danger">
+                <div *ngIf="namecontact.errors?.['required']">
+                    El nombre es requerido
+                </div>
+            </div>
+            <div *ngIf="namecontact.valid" class="text-success">
+                
+                    Datos correctos
+                
+            </div>
+      </div>
+      <div class="col-md-4">
+          <div class="input-group has-validation">
+              <span class="input-group-text">
+                  <img src="../../assets/contact-email-mail-svgrepo-com.svg" alt="apellido" width="16" height="16">
+              </span>
+              <input type="email" class="form-control" [(ngModel)]="emailcontacto" name="emailcontacto" placeholder="Email" required email #emailinput="ngModel">
+          </div>
+            <div *ngIf="emailinput.invalid && (emailinput.dirty || emailinput.touched)" class="text-danger">
+                <div *ngIf="emailinput.errors?.['required']">
+                    El email es requerido
+                </div>
+                <div *ngIf="emailinput.errors?.['email']">
+                    El email no es válido
+                </div>
+            </div>
+      </div>
+      <div class="col-md-4">
+          <div class="input-group has-validation">
+              <span class="input-group-text">
+                  <img src="../../assets/contact-phone-talking-svgrepo-com.svg" alt="telefono" width="16" height="16">
+              </span>
+              <input type="tel" class="form-control" [(ngModel)]="telefonocontacto" name="telefonocontacto" placeholder="Teléfono" required #phone="ngModel">
+          </div>
+          <div *ngIf="phone.invalid && (phone.dirty || phone.touched)" class="text-danger">
+            <div *ngIf="phone.errors?.['required']">
+                  El teléfono es requerido
+              </div>
+          </div>
+      </div>
+      <div class="col-12">
+          <div class="input-group">
+              <span class="input-group-text">
+                  <img src="../../assets/contact-writing-write-svgrepo-com.svg" alt="ubicacion" width="16" height="16">
+              </span>
+              <textarea class="form-control" placeholder="Escriba su mensaje" [(ngModel)]="mensajecontacto" name="mensajecontacto" id="floatingTextarea2" style="height: 100px"></textarea>
+          </div>
+      </div>
+      
+        <button type="submit" class="btn btn-primary" [disabled]="!form.valid">Enviar</button>
+
+     
+  </form>
+</div>

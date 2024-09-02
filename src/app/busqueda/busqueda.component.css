@@ -1,0 +1,50 @@
+.map-responsive {
+    
+    overflow: hidden;
+    padding-bottom: 56.25%;
+    position: relative;
+    height: max-content;
+    display: flex;
+    align-items: stretch;
+  }
+  
+  /* Example Media Query for further responsiveness */
+  @media (max-width: 768px) {
+    .map-responsive {
+      height: 30vh; /* Smaller height on smaller devices */
+    }
+  }
+
+  html, body {
+    height: 100%;
+    margin: 0;
+  }
+  
+  /* Assuming .row is directly inside body or another full-height container */
+  /* Adjust accordingly if .row is nested deeper */
+  .row {
+    display: flex; /* Use flexbox to allow children to expand */
+    flex-direction: row; /* Align children horizontally */
+    height: 100%; /* Take up full height of its container */
+  }
+  
+  .col {
+    flex: 1; /* Each .col will take up equal space */
+    
+  }
+ /* Ensure the parent container of .list-group has a defined height, for example: */
+.parent-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh; /* Adjust based on your layout, this example uses full viewport height */
+}
+
+.list-group {
+  flex-grow: 1; /* Allows the list group to expand and fill the available space */
+  overflow-y: auto; /* Enables vertical scrolling */
+  max-height: none; /* Remove the max-height restriction */
+}
+
+  
+  
+  

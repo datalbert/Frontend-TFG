@@ -1,0 +1,225 @@
+
+
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content rounded-4 shadow">
+      <div class="modal-header p-5 pb-4 border-bottom-0">
+        <h1 class="fw-bold mb-0 fs-2">Inicie sesión</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+
+      <div class="modal-body p-5 pt-0">
+        <form class="" (ngSubmit)="onSubmit()" #iniciosesionForm="ngForm">
+          <div class="form-floating mb-3">
+            <input type="email" class="form-control rounded-3" id="floatingInput" placeholder="name@example.com" [(ngModel)]="email" required="true" name="email" #emailinput="ngModel">
+            <label for="floatingInput">Email </label>
+          </div>
+
+          <div *ngIf="emailinput.invalid && (emailinput.dirty || emailinput.touched)" class="text-danger">
+            <div *ngIf="emailinput.errors?.['required']">
+              El email es requerido
+            </div>
+            <div *ngIf="emailinput.errors?.['email']">
+              El email no es válido
+            </div>
+          </div>
+          
+          
+
+          <div class="form-floating mb-3">
+            <input type="password" class="form-control rounded-3" id="floatingPassword" placeholder="Password" [(ngModel)]="password"  required="true" name="password" #passwordinput="ngModel">
+            <label for="floatingPassword">Contraseña</label>
+            <div *ngIf="passwordinput.invalid && (passwordinput.dirty || passwordinput.touched)" class="text-danger">
+            <div *ngIf="passwordinput.errors?.['required']">
+              La contraseña es requerida
+            </div>
+          </div>
+          </div>
+
+          
+          <button class="w-100 mb-2 btn btn-lg rounded-3 btn-primary" type="submit" [disabled]="!iniciosesionForm.form.valid">Iniciar Sesión</button>
+          <div *ngIf="errorMessage" class="alert alert-danger">
+            {{ errorMessage }}
+          </div>
+          
+          <hr class="my-4">
+         
+        </form>
+        <button class="w-100 py-2 mb-2 btn btn-outline-secondary rounded-3" type="submit">
+          <svg class="bi me-1" width="16" height="16"><use xlink:href="/@{/oauth2/authorization/google}"></use></svg>
+          Inicie Sesión con Google
+        </button>
+
+        
+        <button class="w-100 py-2 mb-2 btn btn-outline-primary rounded-3" type="submit">
+          <svg class="bi me-1" width="16" height="16"><use xlink:href="#facebook"></use></svg>
+          Inicie Sesión con  Facebook
+        </button>
+      </div>
+    </div>
+  </div>
+  
+</div>
+<div class="modal fade" id="staticBackdrop2" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content rounded-4 shadow">
+      <div class="modal-header p-5 pb-4 border-bottom-0">
+        <h1 class="fw-bold mb-0 fs-2 text-center">Inicie sesión</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+
+      <div class="modal-body p-5 pt-0">
+          
+          <button class="w-100 py-2 mb-2 btn btn-outline-secondary rounded-3" type="submit">
+            <svg class="bi me-1" width="16" height="16"><use xlink:href="#google"></use></svg>
+            Inicie Sesión con Google
+          </button>
+
+          
+          <button class="w-100 py-2 mb-2 btn btn-outline-primary rounded-3" type="submit">
+            <svg class="bi me-1" width="16" height="16"><use xlink:href="#facebook"></use></svg>
+            Inicie Sesión con  Facebook
+          </button>
+
+          <button class="w-100 py-2 mb-2 btn btn-outline-primary rounded-3" type="submit" (click)="redirectToLoginPage()">
+            Inicie Sesión con  Email
+          </button>
+
+          <button class="w-100 py-2 mb-2 btn btn-outline-primary rounded-3" type="submit">
+            <svg class="bi me-1" width="16" height="16"><use xlink:href="#facebook"></use></svg>
+            Inicie Sesión con  Github
+          </button>
+
+        
+      </div>
+    </div>
+  </div>
+  
+</div>
+
+
+    <div class="px-4 py-5 my-5 text-center">
+      <img class="d-block mx-auto mb-4" src="../assets/icono_inicio.png" alt="" width="400" height="200">
+      <h1 class="display-5 fw-bold text-body-emphasis">RentaMov</h1>
+      <div class="col-lg-6 mx-auto">
+        <p class="lead mb-4">Haz que tu coche trabaje para ti</p>
+        <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
+          <a class="btn btn-primary" routerLink="/crear-usuario" routerLinkActive="active" ariaCurrentWhenActive="page" >Crear Cuenta</a>
+            <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+              Iniciar Sesión
+            </button>
+            <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#staticBackdrop2">
+              Iniciar Sesión2
+            </button>  
+            <button class="btn btn-primary" data-bs-target="#exampleModalToggle" data-bs-toggle="modal">Crear Cuenta 2</button>
+            <button class="btn btn-primary" (click)="gotoinicio()">Ir a inicio</button>
+        </div>
+      </div>
+    </div>
+
+
+    
+
+    <hr class="featurette-divider">
+
+    <div class="row featurette">
+      <div class="col-md-7">
+        <h2 class="featurette-heading fw-normal lh-1">Cómo funciona <span class="text-body-secondary"></span></h2>
+        <ol class="list-group">
+        <li class="list-group-item">Registro</li>
+        <li class="list-group-item">Explorar Vehículos
+        <li class="list-group-item">Seleccionar Vehículo</li>
+        <li class="list-group-item">Especificar Hora de Inicio y Fin</li>
+        <li class="list-group-item">Reservar</li>
+        <li class="list-group-item">Estacionar Vehículo dentro de la Zona Limitada</li>
+        <li class="list-group-item">Finalizar Sesión de Alquiler</li>
+      </ol>
+      </div>
+      <div class="col-md-5">
+        <img src="../../assets/inicio_image1.png" class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto" width="500" height="500" alt="Description of the image">
+      </div>
+    </div>
+
+    <hr class="featurette-divider">
+
+    <div class="row featurette">
+      <div class="col-md-7 order-md-2">
+        <h2 class="featurette-heading fw-normal lh-1">Y además</h2>
+        <p class="lead">Another featurette? Of course. More placeholder content here to give you an idea of how this layout would work with some actual real-world content in place.</p>
+      </div>
+      <div class="col-md-5 order-md-1">
+        <svg class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto" width="500" height="500" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 500x500" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="var(--bs-secondary-bg)"></rect><text x="50%" y="50%" fill="var(--bs-secondary-color)" dy=".3em">500x500</text></svg>
+      </div>
+    </div>
+
+
+    <footer>
+      <div class="container">
+          <footer class="row row-cols-1 row-cols-sm-2 row-cols-md-5 py-5 my-5 border-top">
+            <div class="col mb-3">
+              <a href="/" class="d-flex align-items-center mb-3 link-body-emphasis text-decoration-none">
+                <svg class="bi me-2" width="40" height="32"><use xlink:href="#bootstrap"></use></svg>
+              </a>
+              <p class="text-body-secondary">© 2024</p>
+            </div>
+            <div class="col mb-3">
+            </div>
+            <div class="col mb-3">
+              <h5>Poíticas y recursos</h5>
+              <ul class="nav flex-column">
+                <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-body-secondary">Políticas legales y protección de datos</a></li>
+              </ul>
+            </div>
+        
+            <div class="col mb-3">
+              <h5>Información de la empresa</h5>
+              <ul class="nav flex-column">
+                <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-body-secondary">Quienes somos</a></li>
+              </ul>
+            </div>
+        
+            <div class="col mb-3">
+              <h5>Contácto</h5>
+              <ul class="nav flex-column">
+                <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-body-secondary">Datos de Contacto</a></li>
+                <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-body-secondary">Horario de atención</a></li>
+                <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-body-secondary">Preguntas Frecuentes</a></li>
+              </ul>
+            </div>
+          </footer>
+        </div>
+    </footer>
+
+    <div class="modal fade" id="exampleModalToggle" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="exampleModalToggleLabel">Registrese</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            Show a second modal and hide this one with the button below.
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-primary" data-bs-target="#exampleModalToggle2" data-bs-toggle="modal">Open second modal</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal fade" id="exampleModalToggle2" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="exampleModalToggleLabel2">Modal 2</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            Hide this modal and show the first with the button below.
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-primary" data-bs-target="#exampleModalToggle" data-bs-toggle="modal">Back to first</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    

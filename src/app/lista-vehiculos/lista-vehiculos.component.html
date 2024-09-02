@@ -1,0 +1,89 @@
+<div class="album py-5 bg-body-tertiary">
+    
+    <div class="container">
+
+      <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+
+        <div class="col" *ngFor="let coche of coches">
+          <div class="card shadow-sm">
+            <img class="bd-placeholder-img card-img-top" [src]="coche.urlfotos" width="100%" height="225" alt="Imagen del coche">
+            
+            <div class="card-body">
+              <h3>{{coche.marca}}</h3>
+              <p class="card-text">{{coche.modelo}}</p>
+              <p class="card-text">{{coche.matricula}}</p>
+              <div class="d-flex justify-content-between align-items-center">
+                <div class="btn-group">
+                  <button type="button" class="btn btn-sm btn-outline-secondary" (click)="selectedCocheVer = selectedCocheVer === coche ? null : coche">Detalles</button>
+                  <button type="button" class="btn btn-sm btn-outline-secondary" (click)="selectedCocheEditar =  selectedCocheEditar== coche ? null: coche ">Editar</button>
+                  <button type="button" class="btn btn-sm btn-outline-secondary" (click)="deleteCoche(coche.id,coche.matricula)">Dar de baja</button>
+                </div>
+                <small class="text-body-secondary">9 mins</small>
+              </div>
+            </div>
+          </div>
+          <div  *ngIf="selectedCocheVer==coche">
+            <div class="card">
+              <div class="card-body">
+                <h3><strong>Marca:</strong>{{selectedCocheVer.marca}}</h3>
+                <p class="card-text"><strong>Modelo </strong>{{selectedCocheVer.modelo}}</p>
+                <p class="card-text"><strong>Matricula: </strong>{{selectedCocheVer.matricula}}</p>
+                <p class="card-text"><strong>Número de asientos: </strong>{{selectedCocheVer.numasientos}}</p>
+                <p class="card-text"><strong>Combustible: </strong>{{selectedCocheVer.combustible}}</p>
+                <p class="card-text"><strong>Transmisión: </strong>{{selectedCocheVer.transmision}}</p>
+                <p class="card-text"><strong>Estado:</strong></p>
+                <p class="card-text"><strong>Fecha de modificación: </strong></p>
+              </div>
+            </div>
+        </div>
+        <div  *ngIf="selectedCocheEditar==coche">
+          <div class="card">
+            <div class="card-body">
+              <h2>Editar el coche</h2>
+              <form class="row g-3" (ngSubmit)="onSubmit(useForm,selectedCocheEditar.id)" #useForm="ngForm" enctype="multipart/form-data">
+                <div class="col-md-4">
+                  <label for="inputEmail4" class="form-label">Marca</label>
+                  <input type="text" class="form-control" id="inputMarca" [(ngModel)]="selectedCocheEditar.marca" name="marca">
+                </div>
+                <div class="col-md-6">
+                  <label for="inputPassword4" class="form-label">Modelo</label>
+                  <input type="text" class="form-control" id="inputModelo" [(ngModel)]="selectedCocheEditar.modelo" name="modelo">
+                </div>
+                <div class="col-md-4">
+                  <label for="inputAddress" class="form-label">Matricula</label>
+                  <input type="text" class="form-control" id="inputMatricula"  [(ngModel)]="selectedCocheEditar.matricula" name="matricula">
+                </div>
+                <div class="col-md-4">
+                  <label for="inputAddress2" class="form-label">Combustible</label>
+                  <select id="inputCombustible" class="form-select" [(ngModel)]="selectedCocheEditar.combustible" name="combustible" >
+                    <option selected>Gasolina</option>
+                    <option>Diesel</option>
+                    <option>Electrico</option>
+                    <option>Gas</option>
+                    <option>Híbrido</option>
+                  </select>
+                </div>
+                <div class="col-md-4">
+                  <label for="inputTransmision" class="form-label">Transmisión</label>
+                  <select id="inputTransmision" class="form-select" [(ngModel)]="selectedCocheEditar.transmision" name="trasnmision">
+                    <option selected>Delantera</option>
+                    <option>Trasera</option>
+                    <option>4x4</option>
+                  </select>
+                </div>
+                <div class="col-md-4">
+                  <label for="inputnumasientos" class="form-label">Num Asientos</label>
+                  <input type="text" class="form-control" id="inputnumasientos" [(ngModel)]="selectedCocheEditar.numasientos" name="numasientos">
+                </div>
+                <div class="col-12">
+                  <button type="submit" class="btn btn-primary">Crear</button>
+                </div>
+              </form>
+            </div>
+          </div>
+      </div>
+        </div>
+
+        
+    </div>
+  </div>

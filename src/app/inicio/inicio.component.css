@@ -1,0 +1,132 @@
+.row {
+  display: flex;
+}
+
+.card-equal-height {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+}
+
+.card-img-top {
+  height: auto; /* Ajusta la altura de la imagen según sea necesario */
+  max-height: 200px; /* Ajusta este valor según tus necesidades */
+  object-fit: cover; /* Asegura que la imagen se ajuste bien dentro del contenedor */
+}
+
+.card-body h5 {
+  font-size: 1.2rem; /* Ajusta este valor según tus necesidades */
+  font-weight: bold;
+}
+
+.background-image-div {
+  background-image: url(../../assets/inicio_prueba2.jpg);
+  background-size: cover; /* Ajusta la imagen para que cubra todo el div */
+  background-position: center; /* Centra la imagen en el div */
+  background-repeat: no-repeat; /* Evita que la imagen se repita */
+}
+
+/* Media query para pantallas muy pequeñas */
+@media (max-width: 400px) {
+  .background-image-div {
+    background-size: 30%; /* Ajusta la imagen al 30% del tamaño del div */
+  }
+}
+
+/* Media query para pantallas pequeñas */
+@media (min-width: 401px) and (max-width: 500px) {
+  .background-image-div {
+    background-size: 40%; /* Ajusta la imagen al 40% del tamaño del div */
+  }
+}
+
+@media (min-width: 501px) and (max-width: 600px) {
+  .background-image-div {
+    background-size: 50%; /* Ajusta la imagen al 50% del tamaño del div */
+  }
+}
+
+/* Media query para pantallas medianas */
+@media (min-width: 601px) and (max-width: 700px) {
+  .background-image-div {
+    background-size: 60%; /* Ajusta la imagen al 60% del tamaño del div */
+  }
+}
+
+@media (min-width: 701px) and (max-width: 800px) {
+  .background-image-div {
+    background-size: 65%; /* Ajusta la imagen al 65% del tamaño del div */
+  }
+}
+
+/* Media query para pantallas medianas grandes */
+@media (min-width: 801px) and (max-width: 900px) {
+  .background-image-div {
+    background-size: 70%; /* Ajusta la imagen al 70% del tamaño del div */
+  }
+}
+
+@media (min-width: 901px) and (max-width: 1024px) {
+  .background-image-div {
+    background-size: 75%; /* Ajusta la imagen al 75% del tamaño del div */
+  }
+}
+
+/* Media query para pantallas grandes */
+@media (min-width: 1025px) and (max-width: 1200px) {
+  .background-image-div {
+    background-size: 80%; /* Ajusta la imagen al 80% del tamaño del div */
+  }
+}
+
+@media (min-width: 1201px) and (max-width: 1440px) {
+  .background-image-div {
+    background-size: 90%; /* Ajusta la imagen al 90% del tamaño del div */
+  }
+}
+
+/* Media query para pantallas muy grandes */
+@media (min-width: 1441px) {
+  .background-image-div {
+    background-size: cover; /* Ajusta la imagen para que cubra todo el div */
+  }
+}
+.gradient-background {
+  background: linear-gradient(to bottom, #87CEEB,  #FFFFFF); /* Degradado de celeste a azul acero de arriba a abajo */
+}
+
+/* Aumentar el tamaño de todas las tipografías en el documento */
+body {
+  font-size: 1.2em; /* Ajusta este valor según tus necesidades */
+}
+
+/* Aumentar el tamaño de los encabezados */
+h1 {
+  font-size: 2.5em;
+}
+
+h2 {
+  font-size: 2em;
+}
+
+h3 {
+  font-size: 1.75em;
+}
+
+h4 {
+  font-size: 1.5em;
+}
+
+h5 {
+  font-size: 1.25em;
+}
+
+h6 {
+  font-size: 1em;
+}
+
+/* Aumentar el tamaño del texto en párrafos */
+p {
+  font-size: 1.2em;
+}

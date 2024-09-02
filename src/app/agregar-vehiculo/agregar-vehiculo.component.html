@@ -1,0 +1,78 @@
+
+
+<script type="text/javascript" src="https://rawgit.com/GeoAPI-es/geoapi.es-js/1.0.2/GeoAPI.js"></script>
+
+<div class="container">
+
+  <div *ngIf="registroExitoso" class="alert alert-success" role="alert">
+    La reserva se ha realizado correctamente
+  </div>
+  <div *ngIf="errorRegistro" class="alert alert-danger" role="alert">
+    Se ha producido un error al realizar la reserva de el vehículo. Inténtelo de nuevo en unos minutos.
+  </div>
+
+<form class="row g-3" (ngSubmit)="onSubmit()" #useForm="ngForm" enctype="multipart/form-data">
+    <div class="col-md-4">
+      <label for="inputEmail4" class="form-label">Marca</label>
+      <input type="text" class="form-control" id="inputMarca" [(ngModel)]="nuevocoche.marca" name="marca">
+    </div>
+    <div class="col-md-6">
+      <label for="inputPassword4" class="form-label">Modelo</label>
+      <input type="text" class="form-control" id="inputModelo" [(ngModel)]="nuevocoche.modelo" name="modelo">
+    </div>
+    <div class="col-md-4">
+      <label for="inputAddress" class="form-label">Matricula</label>
+      <input type="text" class="form-control" id="inputMatricula" placeholder="1234KLV" [(ngModel)]="nuevocoche.matricula" name="matricula">
+    </div>
+    <div class="col-md-4">
+      <label for="inputAddress2" class="form-label">Combustible</label>
+      <select id="inputCombustible" class="form-select" [(ngModel)]="nuevocoche.combustible" name="combustible" >
+        <option selected>Gasolina</option>
+        <option>Diesel</option>
+        <option>Electrico</option>
+        <option>Gas</option>
+        <option>Híbrido</option>
+      </select>
+    </div>
+    <div class="col-md-4">
+      <label for="inputTransmision" class="form-label">Transmisión</label>
+      <select id="inputTransmision" class="form-select" [(ngModel)]="nuevocoche.transmision" name="trasnmision">
+        <option selected>Delantera</option>
+        <option>Trasera</option>
+        <option>4x4</option>
+      </select>
+    </div>
+    <div class="col-md-4">
+      <label for="inputnumasientos" class="form-label">Num Asientos</label>
+      <input type="text" class="form-control" id="inputnumasientos" [(ngModel)]="nuevocoche.numasientos" name="numasientos">
+    </div>
+    <div class="col-md-6">
+        <label for="inputfoto" class="form-label">Fotos</label>
+        <input type="file" class="form-control" id="inputfoto" [(ngModel)]="fotos" name="fotos" accept="image/*" (change)="onFileSelected($event)">
+      </div>
+      <div class="col-md-2">
+        <label for="inputAddress2" class="form-label">Comunidad Aútonoma</label>
+        <select id="inputCombustible" class="form-select" (change)="onComunidadChange($event)" [(ngModel)]="nuevocoche.comunidad" name="Comunidad Autónoma" >
+          <option *ngFor ="let comunidades of ComunidadesAutom" [value]="comunidades.CCOM">{{comunidades.COM}}</option>
+        </select>
+      </div>
+      <div class="col-md-2">
+        <label for="inputAddress2" class="form-label">Provincia</label>
+        <select id="inputCombustible" (change)="onProvinciaChange($event)" class="form-select" [(ngModel)]="nuevocoche.provincia" name="Provincia" >
+          <option *ngFor ="let provincias of Provincias" [value]="provincias.CPRO">{{provincias.PRO}}</option>
+        </select>
+      </div>
+      <div class="col-md-2">
+        <label for="inputAddress2" class="form-label">Municipio</label>
+        <select id="inputCombustible" class="form-select" (change)="onMunicipioChange($event)" [(ngModel)]="nuevocoche.ciudad" name="Ciudad" >
+          <option *ngFor ="let municipio of Municipios" [value]="municipio.DMUN50">{{municipio.DMUN50}}</option>
+        </select>
+      </div>
+    <div class="col-12">
+      <button type="submit" class="btn btn-primary">Crear</button>
+    </div>
+  </form>
+
+  
+  
+</div>

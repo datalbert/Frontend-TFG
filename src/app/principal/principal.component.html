@@ -1,0 +1,46 @@
+<mat-toolbar color="primary">
+  <button mat-icon-button aria-label="Menu icon" (click)="toggleMenu()">
+    <mat-icon>menu</mat-icon>
+  </button>
+  <h1>Bienvenido a RentaMov alquileres:</h1>
+
+  <span class="flex-spacer"></span>
+  <span class="button-label">Cerrar Sesión</span>
+  <button mat-icon-button aria-label="Collapse icon" id="botonlogout" (click)="cerrarsesion()">
+    <mat-icon>logout</mat-icon>
+  </button>
+
+</mat-toolbar>
+<mat-sidenav-container autosize="true">
+  <mat-sidenav [ngClass]="!isCollapsed ? 'expanded' : ''" [mode]="isMobile ? 'over' : 'side'" [opened]="isMobile ? 'false' : 'true'">
+    <mat-nav-list>
+      <a mat-list-item routerLink="busqueda" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+        <span class="entry">
+          <mat-icon>search</mat-icon>
+          <span *ngIf="!isCollapsed">Búsqueda</span>
+        </span>
+      </a>
+      <a mat-list-item routerLink="perfil">
+        <span class="entry">
+          <mat-icon>account_box</mat-icon>
+          <span *ngIf="!isCollapsed">Perfil</span>
+        </span>
+      </a>
+      <a mat-list-item routerLink="inventario">
+        <span class="entry">
+          <mat-icon>directions_car</mat-icon>
+          <span *ngIf="!isCollapsed">Inventario</span>
+        </span>
+      </a>
+      <a mat-list-item routerLink="reservas">
+        <span class="entry">
+          <mat-icon>calendar_month</mat-icon>
+          <span *ngIf="!isCollapsed">Reservas</span>
+        </span>
+      </a>
+    </mat-nav-list>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <router-outlet></router-outlet>
+  </mat-sidenav-content>
+</mat-sidenav-container>

@@ -1,0 +1,16 @@
+
+
+body {
+    background-color: blue;
+}
+
+.container {
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    margin-top: 200px;
+    margin-bottom: 100px;
+}
+
+#boton-inicio {
+    display: block;
+    margin: 0 auto;
+}
