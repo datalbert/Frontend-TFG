@@ -1,0 +1,42 @@
+<div class="bg-body-tertiary p-5 rounded">
+    <h2 class="text-center">Su reserva queda: </h2>
+    <div class="countdown mt-4 text-center" id="countdown">
+        <!-- Each time box now has a label below it -->
+        <div class="time-container">
+            <span id="days" class="time-box">{{dias}}</span>
+            <div class="time-label">Dias</div>
+        </div>
+        :
+        <div class="time-container">
+            <span id="hours" class="time-box">{{horas}}</span>
+            <div class="time-label">Horas</div>
+        </div>
+        :
+        <div class="time-container">
+            <span id="minutes" class="time-box">{{minutos}}</span>
+            <div class="time-label">Minutos</div>
+        </div>
+        :
+        <div class="time-container">
+            <span id="seconds" class="time-box">{{segundos}}</span>
+            <div class="time-label">Segundos</div>
+        </div>
+    </div>
+</div>
+
+<div class="reservation-details mt-5 p-4 border rounded">
+    <h3>Detalles de su reserva:</h3>
+    <p><strong>Usuario tomador de la reserva:</strong> {{reserva.nombrecliente}}</p>
+    <p><strong>Detalles del vehículo:</strong> {{reserva.marca}} {{reserva.matricula}}</p>
+    <p><strong>Fecha de inicio de la reserva:</strong> {{reserva.fechaInicio}}</p>
+    <p><strong>Fecha de fin de la reserva:</strong> {{reserva.fechaFin}}</p>
+    <p><strong>Precio total de la reserva:</strong> $350.00</p>
+</div>
+
+<div *ngIf="!reservaActiva" class="text-center mt-5" >
+    <button class="btn btn-primary btn-lg w-100" (click)="iniciarReserva()">IniciarReserva</button>
+</div>
+
+<div *ngIf="reservaActiva" class="text-center mt-5" >
+    <button class="btn btn-primary btn-lg w-100" (click)="detenerReserva()">Finalizar Reserva</button>
+</div>

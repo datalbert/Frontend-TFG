@@ -33,6 +33,11 @@ export class PerfilComponent implements OnInit {
 
   }
 
+  editarPerfil() {
+    console.log('Editar perfil');
+    this.keycloakService.accountManagement();
+  }
+
 
 
 }

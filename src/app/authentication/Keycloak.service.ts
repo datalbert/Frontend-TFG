@@ -64,6 +64,20 @@ export class KeycloakService {
   }
 
 
+  // New method to check if the user is authenticated
+  isLoggedIn(): boolean {
+    return !!this.keycloak.authenticated;
+  }
+
+  // New method to get user roles
+  getUserRoles(): string[] {
+    if (this.keycloak.tokenParsed && this.keycloak.tokenParsed.realm_access) {
+      return this.keycloak.tokenParsed.realm_access.roles || [];
+    }
+    return [];
+  }
+
+
 
 
   login() {
@@ -73,5 +87,9 @@ export class KeycloakService {
   logout() {
     // this.keycloak.accountManagement();
     return this.keycloak.logout({redirectUri: 'http://localhost:4200'});
+  }
+
+  accountManagement() {
+    this.keycloak.accountManagement();
   }
 }

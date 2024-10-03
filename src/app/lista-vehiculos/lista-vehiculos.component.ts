@@ -7,6 +7,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { FormsModule, NgForm } from '@angular/forms';
 import { Storage, ref, listAll , getDownloadURL, deleteObject} from '@angular/fire/storage';
 import { lastValueFrom } from 'rxjs';
+import { KeycloakService } from '../authentication/Keycloak.service';
 
 @Component({
   selector: 'app-lista-vehiculos',
@@ -22,16 +23,23 @@ export class ListaVehiculosComponent {
 
   urlImagenes: any[] = [];
 
-
+  nombre_usuario!:string
+  email_usuario!:string
   imagen:any;
 
   selectedCocheVer!: CocheHTML | null;
   selectedCocheEditar!: CocheHTML | null;
 
-  constructor(private inventarioService: InventarioService, private sanitizier:DomSanitizer,private storage: Storage) { }
+  constructor(private inventarioService: InventarioService, private sanitizier:DomSanitizer,private storage: Storage,
+    private keycloak: KeycloakService
+  ) { }
 
   ngOnInit() {
-    this.inventarioService.obtenerTodosLosCoches().subscribe(
+
+    this.nombre_usuario=this.keycloak.profile?.firstName|| "";
+    this.email_usuario=this.keycloak.profile?.email|| "";
+
+    this.inventarioService.obtenerTodosLosCochesPorEmail(this.email_usuario).subscribe(
       coches => {
         this.coches = coches;
       },

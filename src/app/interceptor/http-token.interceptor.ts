@@ -23,7 +23,7 @@ export class HttpTokenInterceptor implements HttpInterceptor {
 
     if(!isThirdPartyApi){
       if(this.keycloakService.isTokenExpired()){
-        console.log('El token ha expirado');
+        //console.log('El token ha expirado');
         this.keycloakService.updateToken();
         
       }

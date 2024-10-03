@@ -16,6 +16,7 @@ export const auth2Guard: CanActivateFn = (
 
   return keycloakService.init().then(isAuthenticated => {
     if (keycloakService.keycloak.authenticated) {
+      console.log('Token'+ keycloakService.keycloak.token);
       // Verifica si el token ha expirado
       if (keycloakService.isTokenExpired()) {
         return keycloakService.updateToken().then(tokenUpdated => {

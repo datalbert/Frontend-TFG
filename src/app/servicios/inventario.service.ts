@@ -108,6 +108,17 @@ export class InventarioService {
 
   }
 
+  obtenerTodosLosCochesPorEmail(email: string): Observable<CocheHTML[]> {
+
+    const url = `${this.inventarioUrl}/?email=${email}`;
+
+    return this.http.get<CocheHTML[]>(url).pipe(
+      tap(_ => this.log('Coches obtenidos')),
+      catchError(this.handleError<CocheHTML[]>('obtenerTodosLosCochesPorEmail', []))
+    );
+
+  }
+
   obtenerDisponibles(): Observable<CocheHTML[]> {
 
     const url = `${this.inventarioUrl}/obtenerDisponibles`;
@@ -126,6 +137,16 @@ export class InventarioService {
     return this.http.get(url, { responseType: 'blob' }).pipe(
       tap(_ => this.log('Imagen obtenida')),
       catchError(this.handleError<any>('obtenerImagenCoche'))
+    );
+
+  }
+
+  obtenerCochesPorUbicacion(latitud:string,longitud:string,radio:string): Observable<CocheHTML[]> {
+
+    const url = `${this.inventarioUrl}/ubicacion/${latitud}/${longitud}/${radio}`;
+    return this.http.get<CocheHTML[]>(url).pipe(
+      tap(_ => this.log('Coches obtenidos por ubicacion')),
+      catchError(this.handleError<CocheHTML[]>('obtenerDisponibles', []))
     );
 
   }

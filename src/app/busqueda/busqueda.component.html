@@ -78,6 +78,7 @@
 
           <div *ngIf="buscar">
             Mostrando resultados en <strong> {{ciudad}}  </strong> y un radio de <strong> {{distancia}} km </strong>
+            <button type="button" class="btn btn-link text-end" (click)="limbiarBusqueda()"  >Limpiar Busqueda</button>
           </div>
             
           <div>
@@ -103,7 +104,7 @@
                 <div class="col">
                   <strong>{{ coche.marca  }} {{ coche.modelo}}</strong>
                   <small class="text-muted">Precio: €</small>
-                  <button type="button" class="btn btn-link text-end">Mostrar Ubicación en el mapa</button>
+                  <button type="button" class="btn btn-link text-end" (click)="mostrarUbiacionMapa(coche.matricula)">Mostrar Ubicación en el mapa</button>
                 </div>
                 <div class="col">
                   <button type="button" (click)="reservarcoche= reservarcoche== coche.id ? null : coche.id" class="btn btn-primary">Reservar</button>

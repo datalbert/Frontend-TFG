@@ -14,16 +14,16 @@ export class ReservasService {
 
   private reservasUrl = 'http://localhost:8071/tfg/reservas';
 
-  obtenerReservasCompletadas(fecha: string) : Observable<Reserva[]> {
-    const url = `${this.reservasUrl}/completadas/${fecha}`;
+  obtenerReservasCompletadas(fecha: string,email:string) : Observable<Reserva[]> {
+    const url = `${this.reservasUrl}/completadas?fecha=${fecha}&email=${email}`;
     return this.http.get<Reserva[]>(url).pipe(
       tap(_ => this.log('fetched reservas')),
       catchError(this.handleError<Reserva[]>('obtenerReservasAnteriores', []))
     );
   }
 
-  obtenerReservasActivas(fecha: string) : Observable<Reserva[]> {
-    const url = `${this.reservasUrl}/activas/${fecha}`;
+  obtenerReservasActivas(fecha: string,email:string) : Observable<Reserva[]> {
+    const url = `${this.reservasUrl}/activas?fecha=${fecha}&email=${email}`;
     return this.http.get<Reserva[]>(url).pipe(
       tap(_ => this.log('fetched reservas')),
       catchError(this.handleError<Reserva[]>('obtenerReservasPosteriores', []))

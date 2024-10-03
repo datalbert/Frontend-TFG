@@ -30,7 +30,7 @@
 /* Media query para pantallas muy pequeñas */
 @media (max-width: 400px) {
   .background-image-div {
-    background-size: 30%; /* Ajusta la imagen al 30% del tamaño del div */
+    background-size: 150%; /* Ajusta la imagen al 30% del tamaño del div */
   }
 }
 

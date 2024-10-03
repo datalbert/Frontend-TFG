@@ -9,6 +9,7 @@ export class Coche {
         public combustible:string,
         public transmision:string,
         public numasientos:string,
+        public emailpropietario:string,
         public comunidad:string,
         public provincia:string,
         public ciudad: string,

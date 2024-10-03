@@ -1,5 +1,5 @@
 <div class="container-fluid">
-<h1>Lista de reservas</h1>
+<h1>Lista de reservas del usuario {{nombre_usuario}}</h1>
 <div *ngIf="reservaeliminada" class="alert alert-success" role="alert">
   Se ha cancelado la reserva
 </div>
@@ -59,7 +59,7 @@
             </div>
             <li *ngFor="let reservaanterior of reservasanteriores" class="list-group-item d-flex justify-content-between align-items-start">
               <div class="ms-2 me-auto">
-                <div class="fw-bold">Marca</div>
+                <div class="fw-bold">Reserva número: {{reservaanterior.idreserva}} </div>
                 Fecha de inicio: {{reservaanterior.fechaInicio}} 
                 <br>
                 Fecha de fin: {{reservaanterior.fechaFin}}

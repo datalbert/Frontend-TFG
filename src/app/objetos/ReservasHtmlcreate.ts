@@ -3,7 +3,7 @@ export class ReservaHtmlcreate {
 
     constructor(
         public idvehiculo: number,
-        public idcliente: number,
+        public emailcliente: string,
         public fechaInicio: string,
         public fechaFin: string,
         public horaInicio: string,

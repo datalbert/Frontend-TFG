@@ -1,0 +1,24 @@
+<div class="container">
+    
+    <h2>Bienvenido de nuevo {{userprofile?.firstName}}</h2>
+    <p> A continuación se muestran sus reservas activas:</p>
+    <br>
+    
+    <div *ngFor="let reserva of listareservas" class="list-group">
+        
+        
+
+        <a  routerLink="reservasmov" [state]="{ reserva: reserva }" class="list-group-item list-group-item-action">
+            <p class="mb-1">{{reserva.marca}} {{reserva.matricula}} </p>
+            <div class="d-flex w-100 justify-content-between">
+                <h5 class="mb-1"></h5>
+                <small>{{reserva.fechaInicio}}</small>
+            </div>
+        </a>
+
+        
+        
+      </div>
+
+    
+</div>

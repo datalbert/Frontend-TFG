@@ -7,6 +7,7 @@ import { UsuariosService } from '../servicios/usuarios.service';
 import { Usuario2 } from '../objetos/Usuario2';
 import { ChangeDetectorRef } from '@angular/core';
 import { KeycloakService } from 'keycloak-angular';
+import { DeviceService } from '../servicios/device.service';
 
 
 
@@ -27,7 +28,7 @@ export class InicioComponent {
   errorMessage: string | null = null;
 
 
-  constructor(private usuariosService: UsuariosService,private router:Router,private readonly keycloak: KeycloakService) { }
+  constructor(private usuariosService: UsuariosService,private router:Router,private readonly keycloak: KeycloakService, private deviceService: DeviceService) { }
 
 
   onSubmit() {
@@ -49,6 +50,10 @@ export class InicioComponent {
   }
 
   gotoinicio(){
-    this.router.navigate(['/inicio_app']);
+    if (this.deviceService.isMobile()) {
+      this.router.navigate(['/inicio_app_mobile']);  // Redirige a la vista móvil
+    } else {
+      this.router.navigate(['/inicio_app']);  // Redirige a la vista escritorio
+    }
   }
 }

@@ -1,7 +1,12 @@
 <div class="album py-5 bg-body-tertiary">
     
     <div class="container">
+      <h2>Listado de coches pertenecientes a: {{nombre_usuario}}</h2>
 
+     
+      <div *ngIf="!coches || coches.length === 0" class="alert alert-danger" role="alert">
+        Actualmente no dispone de coches registrados en la base de datos.
+      </div>
       <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
 
         <div class="col" *ngFor="let coche of coches">

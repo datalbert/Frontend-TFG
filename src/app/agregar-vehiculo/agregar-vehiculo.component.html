@@ -5,10 +5,10 @@
 <div class="container">
 
   <div *ngIf="registroExitoso" class="alert alert-success" role="alert">
-    La reserva se ha realizado correctamente
+    el vehñiculo se ha registrado correctamente en la base de datos.
   </div>
   <div *ngIf="errorRegistro" class="alert alert-danger" role="alert">
-    Se ha producido un error al realizar la reserva de el vehículo. Inténtelo de nuevo en unos minutos.
+    Se ha producido un error al realizar el registro. Inténtelo de nuevo en unos minutos.
   </div>
 
 <form class="row g-3" (ngSubmit)="onSubmit()" #useForm="ngForm" enctype="multipart/form-data">

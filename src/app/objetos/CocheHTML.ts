@@ -10,7 +10,10 @@ export class CocheHTML {
         public combustible:string,
         public fotos:string,
         public transmision:string,
-        public numasientos:string) {}
+        public numasientos:string,
+        public idPropietario:string,
+        public latitud:string,
+        public longitud:string) {}
 
     
 

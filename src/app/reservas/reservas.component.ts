@@ -5,6 +5,7 @@ import { Reserva } from '../objetos/Reserva';
 import moment from 'moment';
 import { InventarioService } from '../servicios/inventario.service';
 import { CocheHTML } from '../objetos/CocheHTML';
+import { KeycloakService } from '../authentication/Keycloak.service';
 
 @Component({
   selector: 'app-reservas',
@@ -29,11 +30,14 @@ export class ReservasComponent {
 
   cocheDetalle!: CocheHTML;
 
-  constructor(private reservasService: ReservasService,private inventarioService: InventarioService) {
+  nombre_usuario: string = "";
+
+  constructor(private reservasService: ReservasService,private inventarioService: InventarioService,private keycloak: KeycloakService) {
     moment.locale('es');
   }
 
   ngOnInit() {
+    this.nombre_usuario = this.keycloak.profile?.firstName || "";
     this.mostrarActivas();
 
   }
@@ -48,7 +52,7 @@ export class ReservasComponent {
     const hoy = Date.now();                // obtenemos la fecha actual
     const hoyformat= moment(hoy).format("YYYY-MM-DD"); // 2021-02-16     
     
-    this.reservasService.obtenerReservasActivas(hoyformat).subscribe(
+    this.reservasService.obtenerReservasActivas(hoyformat,this.keycloak.profile?.email|| "").subscribe(
         reservas => {
           this.reservasposteriores = reservas;
           console.log("El id de la rrserva es"+ this.reservasposteriores[0].idreserva);
@@ -64,7 +68,7 @@ export class ReservasComponent {
     this.mostrarDetalles=false;
     const hoy = Date.now();                // obtenemos la fecha actual
     const hoyformat= moment(hoy).format("YYYY-MM-DD"); // 2021-02-16     
-    this.reservasService.obtenerReservasCompletadas(hoyformat).subscribe(
+    this.reservasService.obtenerReservasCompletadas(hoyformat,this.keycloak.profile?.email|| "").subscribe(
         reservas => {
           this.reservasanteriores = reservas;
         }

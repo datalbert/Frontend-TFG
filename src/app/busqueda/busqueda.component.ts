@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import {GoogleMap} from '@angular/google-maps';
+import {GoogleMap, MapInfoWindow} from '@angular/google-maps';
 import { Loader } from "@googlemaps/js-api-loader"
 import { Coche } from '../objetos/Coche';
 import { NgFor, NgIf, Time } from '@angular/common';
@@ -10,6 +10,9 @@ import { NgModel } from '@angular/forms';
 import { FormsModule } from '@angular/forms';
 import { ReservaHtmlcreate } from '../objetos/ReservasHtmlcreate';
 import { ReservasService } from '../servicios/reservas.service';
+import { GooglemapsapiService } from '../servicios/googlemapsapi.service';
+import { ApiResponse } from '../objetos/Direccion';
+import { KeycloakService } from '../authentication/Keycloak.service';
 
 @Component({
   selector: 'app-busqueda',
@@ -58,9 +61,21 @@ export class BusquedaComponent {
 
   reservaexitosa: boolean | null = null;
   errorenreserva: boolean | null = null;
+
+  TodasLatitudes: number[] = [];
+  TodasLongitudes: number[] = [];
+
+  //valor devuelto por la api de googlemaps
+  addressData: ApiResponse | undefined;
+
+  //Almacenar los marcadores en un mapa
+  private markersMap: Map<string, google.maps.marker.AdvancedMarkerElement> = new Map();
+
   
   
-  constructor(private inventarioService: InventarioService, private sanitizier:DomSanitizer,private reservaService: ReservasService) 
+  constructor(private inventarioService: InventarioService, private sanitizier:DomSanitizer,private reservaService: ReservasService,
+    private googlemapsapi: GooglemapsapiService,
+    private keycloak: KeycloakService) 
  {
     this.loader = new Loader({
       apiKey: "AIzaSyDHo4dF--LFDlNQ7ut3c4q-iinxKCVsKDc",
@@ -70,17 +85,93 @@ export class BusquedaComponent {
 
     this.inventarioService.obtenerDisponibles().subscribe(coches => {
       this.coches = coches;
-    });
       
+      // Aquí cargamos el mapa después de obtener los coches
+      this.loader.load().then(async () => {
+        const { Map ,InfoWindow} = await google.maps.importLibrary("maps") as google.maps.MapsLibrary;
+        const { AdvancedMarkerElement } = await google.maps.importLibrary("marker") as google.maps.MarkerLibrary;
+  
+        this.map = new Map(document.getElementById("map") as HTMLElement, {
+          center: { lat: 36.382515, lng: -6.150913 },
+          zoom: 13,
+          mapId: 'DEMO_MAP_ID',
+        });
 
-    this.loader.load().then(async () => {
-      const { Map } = await google.maps.importLibrary("maps") as google.maps.MapsLibrary;
-      this.map = new Map(document.getElementById("map") as HTMLElement, {
-        center: { lat: 36.382515, lng: -6.150913 },
-        zoom: 13,
+        const infoWindow = new InfoWindow();
+  
+        // Recorremos todos los coches disponibles y actualizamos las latitudes y longitudes
+        this.coches.forEach(coche => {
+          this.TodasLatitudes.push(Number(coche.latitud));
+          
+          this.TodasLongitudes.push(Number(coche.longitud));
+
+          const position = { lat: Number(coche.latitud), lng: Number(coche.longitud) };
+          const marker = new AdvancedMarkerElement({
+            map: this.map,
+            position: position,
+            gmpClickable: true,
+            title: `${coche.marca} ${coche.matricula}`,
+          });
+        
+          this.markersMap.set(coche.matricula, marker);
+
+          marker.addListener('click', () => {
+            infoWindow.close();
+            infoWindow.setContent(marker.title);
+            infoWindow.open(marker.map, marker);
+        });
+
+
+        });
+
+        
+        
+        /*
+  
+        // Recorremos todas las latitudes y longitudes y las añadimos al mapa
+        for (let i = 0; i < this.TodasLatitudes.length; i++) {
+          const position = { lat: this.TodasLatitudes[i], lng: this.TodasLongitudes[i] };
+          const marker = new AdvancedMarkerElement({
+            map: this.map,
+            position: position,
+            gmpClickable: true,
+            title: `Marker ${i}`,
+          });
+
+
+
+          marker.addListener('click', ({  }) => {
+            infoWindow.close();
+            infoWindow.setContent(marker.title);
+            infoWindow.open(marker.map, marker);
+        });
+
+
+        }
+        */
+        
       });
     });
+  
+
+    
+    
   }
+
+  mostrarUbiacionMapa(matricula: string) {
+    // Buscar el coche por matrícula
+    const marker = this.markersMap.get(matricula);
+    if (marker) {
+      // Simulamos el evento 'click' del marcador
+      google.maps.event.trigger(marker, 'click');
+    } else {
+      console.error('No se encontró el marcador para la matrícula: ' + matricula);
+    }
+  }
+
+    
+  
+
 
   onSliderChange(event: Event): void {
     this.distancia = (event.target as HTMLInputElement).valueAsNumber;
@@ -126,6 +217,8 @@ export class BusquedaComponent {
     
   }
 
+  
+
   filterCochesByTransmision(transmision: string) {
     if(transmision == "") {
       this.uniqueTransmisiones = "";
@@ -156,11 +249,22 @@ export class BusquedaComponent {
     
   }
 
+  limbiarBusqueda(){
+    this.buscar = false;
+    this.inventarioService.obtenerDisponibles().subscribe(coches => {
+      this.coches = coches;
+    });
+
+  }
+
   onSubmit(idvehiculo: number) {
 
 
-    this.crearReserva= new ReservaHtmlcreate(idvehiculo,3,this.fechainicio.toString(),this.fechafinal.toString(),this.horainicio.toString(),this.horafinal.toString(),'Reservado');
+    let fechainicio_string= this.fechainicio.toString();
 
+    this.crearReserva= new ReservaHtmlcreate(idvehiculo,this.keycloak.profile?.email|| "",this.fechainicio?.toString(),this.fechafinal?.toString(),this.horainicio?.toString()+":00",this.horafinal?.toString()+":00",'Reservado');
+
+     console.log('La reserva es: '+ this.crearReserva);
     //tendriamos que saber el id del vehículo y el id del usuario
     this.reservaService.crearReserva(this.crearReserva).subscribe({
       next: (response) => {
@@ -183,6 +287,36 @@ export class BusquedaComponent {
   buscarPorUbicacion(ciudad: string): void {
     this.ciudad = ciudad;
     this.buscar = true;
+    
+    //1º llamar a geocoding para obtener las coordenadas de la ciudad introducida
+
+    this.googlemapsapi.getCoordenadas(this.ciudad).subscribe(
+      (data: ApiResponse) => {
+        this.addressData = data;
+        const latitudbuscar = this.addressData.results[0].geometry.location.lat.toString();
+        const longitudbuscar = this.addressData.results[0].geometry.location.lng.toString();
+        console.log('La l,ongitud es :'+ latitudbuscar + ' y la latitud es: ' + longitudbuscar);
+
+        const distanciamax= this.distancia*1000;
+
+        
+
+        //llamamos al servicio para obtener los coches en función de la distancia y la ciudad
+        this.inventarioService.obtenerCochesPorUbicacion(latitudbuscar,longitudbuscar,distanciamax.toString()).subscribe(coches => {
+          this.coches = coches;
+          console.log('Coches encontrados en la ciudad de '+ ciudad);
+        }
+        );
+      },
+      (error) => {
+        console.error('Error fetching address data:', error);
+      }
+    );
+
+    //2º con esa 
+    //hay que pasarle la distancia en metros y la ciudad
+
+    
     
 
   }

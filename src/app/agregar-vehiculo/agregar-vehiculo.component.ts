@@ -8,6 +8,7 @@ import { GooglemapsapiService } from '../servicios/googlemapsapi.service';
 import { ApiResponse } from '../objetos/Direccion';
 import { Storage ,ref, uploadBytes, getDownloadURL} from '@angular/fire/storage';
 import { lastValueFrom } from 'rxjs';
+import { KeycloakService } from '../authentication/Keycloak.service';
 
 
 
@@ -47,14 +48,15 @@ export class AgregarVehiculoComponent {
   addressData: ApiResponse | undefined;
 
 
-  
 
-  
+  nuevocoche=new Coche(this.marca, this.modelo, this.matricula,"" ,this.combustible, this.transmision, this.numasientos,"",this.comunidad,this.provincia,this.ciudad,"","");
 
+  constructor(private inventarioService: InventarioService, private geoapiservice: GeoApiService,
+    private googlemapsapi: GooglemapsapiService,
+    private storage: Storage,
+    private keycloak: KeycloakService
 
-  nuevocoche=new Coche(this.marca, this.modelo, this.matricula,"" ,this.combustible, this.transmision, this.numasientos,this.comunidad,this.provincia,this.ciudad,"","");
-
-  constructor(private inventarioService: InventarioService, private geoapiservice: GeoApiService,private googlemapsapi: GooglemapsapiService,private storage: Storage) { 
+  ) { 
 
       
     }
@@ -143,6 +145,7 @@ export class AgregarVehiculoComponent {
         
         // Aquí puedes proceder a guardar el objeto nuevocoche en tu base de datos, si es necesario
          // Convert Observable to Promise using lastValueFrom
+        this.nuevocoche.emailpropietario = this.keycloak.profile?.email || '';
         return lastValueFrom(this.inventarioService.createInventario(this.nuevocoche));
       })
       .then((response) => {
